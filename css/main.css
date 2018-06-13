@@ -1,0 +1,69 @@
+*{
+    font-family: 'Lato', sans-serif;
+}
+
+body{
+    background-color: #FFFFFF;
+    margin: 0;
+    padding: 0;
+    /*background-color: #2f3640;*/
+    /*background-color: #353b48;*/
+    /*background-color: #718093;*/
+    /*background-color: #7f8fa6;*/
+}
+
+#fifa-wc-trophy{
+    width: 20%;
+    height: 20%;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    /*margin-top: 10px;*/
+    overflow: hidden;
+    background-color: #333333;
+}
+
+nav ul li{
+    display: inline;
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    }
+
+nav ul li a:hover {
+    background-color: #111;
+}
+
+.active {
+    background-color: #D52B1E;
+}
+
+.footer{
+    /*position: absolute;*/
+    right: 0;
+    bottom: 0;
+    left: 0;
+    padding: 1px 0px; 
+    background-color: #333333;
+    color: #ffffff;
+    text-align: center;
+}
+
+.footer p a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
+.footer p a:hover{
+    text-decoration: none;
+    color: #D52B1E;
+}

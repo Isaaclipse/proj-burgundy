@@ -1,0 +1,30 @@
+#fifa-wc-trophy--about{
+    width: 10%;
+    height: 10%;
+    margin: 5px 45%;
+    /*max-height: 300px;*/
+}
+
+h1, h2 {
+    color: #333333;
+}
+
+h1 {
+    text-align: center;
+}
+
+hr {
+    width: 80%;
+}
+
+td > h3{
+	text-align: center;
+}
+
+.winners-count{
+    height: 20%;
+}
+
+.center{
+	text-align: center;
+}

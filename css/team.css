@@ -1,0 +1,48 @@
+*{
+    font-family: 'Lato', sans-serif;
+}
+
+.team-header{
+	color: #333333;
+	text-align: center;
+	font-size: 3em;
+}
+
+.name{
+	color: #0039A6;
+}
+
+.profile-pic{
+	padding: 0;
+	margin: 0;
+	width: 70%;
+  margin: 20px;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: row;
+    /*flex-wrap: wrap;*/
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  text-align: center;
+}
+
+.bio{
+	padding: 15px;
+}
+
+.media-links{
+  color: #333333;
+  padding-bottom: 30px;
+}
+
+.media-links:hover{
+  color: #D52B1E;
+}
+

@@ -1,0 +1,30 @@
+*{
+    font-family: 'Lato', sans-serif;
+}
+
+#winners{
+    position: relative;
+    padding-top: 20px;
+    font-size: 3em;
+    color: #333333;
+    text-align: center;
+}
+
+.winner{
+	width: 25%;
+    height: 25%;
+    margin: 40px;
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+h2{
+	color: #D52B1E;
+	/*font-size: 2em;*/
+}
+
