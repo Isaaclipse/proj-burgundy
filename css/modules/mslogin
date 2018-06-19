@@ -1,0 +1,126 @@
+
+define('mslogin', ['jquery', 'user'], function ($, User) {
+
+  var MsLogin = {
+    screenName: "",
+    userId: 0,
+    userEmail: "",
+    userAvatar: "/userdata/{splittedid}/avatar_80.png",
+    bLoggedIn: false,
+    cleanEnabled: true,
+    $_msLoginBtn: null, //*
+    $_msLoginPageBtn: null,
+    $_msRegistrationBtn: null,
+    $_msRegistrationPageBtn: null,
+    $_msChangePswBtn: null,
+    $_msChangeEmailBtn: null,
+    $_msLogoutBtn: null,
+    msLoginEnabled: false,
+
+    init: function (options) {
+      var _this = this;
+
+      _this.msLoginHandling(options);
+
+    },
+    msLoginHandling: function (options) {
+
+      var _this = this;
+
+      //var cookieDomain = "localhost";
+      //var prodCookieDomain = ".fifa.com";
+
+      ///* erase PROD cookies in STG*/
+      //if (cookieDomain !== prodCookieDomain) {
+      //  document.cookie = 'FIFACom=;path=/;domain=.fifa.com;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+      //  document.cookie = 'FIFAComClub=;path=/;domain=.fifa.com;expires=Thu, 01 Jan 1970 00:00:01 GMT';
+      //}
+
+      /* deleting legacy cookie */
+      if (!!Cookie.get("FIFAComClub")) {
+        Cookie.erase("FIFAComClub");
+      }
+
+      if (!Cookie) { return; }
+
+      var c = Cookie.get("FIFACom");
+
+      if (c) {
+        _this.onUserLogged();
+      } else {
+        Utility.log("MSLOGIN: user not logged");
+        _this.toggleLoginPanel(false);
+      }
+
+    },
+
+
+    onUserLogged: function () {
+
+      var _this = this;
+
+      if (!CurrentUser) { return; }
+
+      CurrentUser.Init();
+
+      Utility.log("MSLOGIN: USER LOGGED");
+
+      //$("body").trigger("login:userLogged");
+
+
+      _this.toggleLoginPanel(true);
+      
+
+      Utility.log("MSLOGIN: USER LOGGED TRIGGERED");
+
+      $(".fi-login__username a").html(CurrentUser.screenName);
+
+      if (CurrentUser.hasAvatar) {
+        _this.userAvatar = _this.userAvatar.replace("{splittedid}", Utility.splitResourceId(CurrentUser.userId, 3));
+
+        _this.userAvatar = "//img.fifa.com" + _this.userAvatar;
+        var avtts = new Date().getTime();
+        if (Cookie.get("newavt")) {
+          _this.userAvatar = _this.userAvatar + "?v=" + avtts;
+        }
+
+        $(".fi-login__avatar").attr("src", _this.userAvatar);
+        $(".fi-icons-bar__login [data-dropdown='fi-site-header__dropdown__login']").html("<img class=\"siteh-tc-avatar\" src=\"" + _this.userAvatar + "\">");
+        
+
+      }
+
+      $("#siteh-tc-userinfo-screenname").html(CurrentUser.screenName);
+
+
+    },
+
+    toggleLoginPanel: function (isLogged) {
+      var $_dropdown_login = $(".fi-site-header__dropdown__login");
+
+      Utility.log("toggleLoginPanel: ", isLogged);
+
+      if ($_dropdown_login.length && isLogged) {
+        $_dropdown_login.removeClass("is-notlogged");
+        $_dropdown_login.addClass("is-logged");
+      } else {
+        $_dropdown_login.removeClass("is-logged");
+        $_dropdown_login.addClass("is-notlogged");
+      }
+    },
+
+    getParameterByName: function (name, url) {
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+      results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    },
+  };
+  return MsLogin;
+
+});

@@ -1,0 +1,252 @@
+define('header', ['jquery', 'mslogin', 'waypoints', 'quickmodal'], function ($, MsLogin) {
+  var Header = {
+    lang: null,
+    init: function (options) {
+      var _this = this;
+      var $body = $('body');
+      _this.setMSURLOnButtons();
+
+      MsLogin.init();
+
+      var $dropdowns = $('.fi-site-header a[data-dropdown]');
+      var $dropdownsClose = $('.fi-site-header__dropdown-wrap .fi-site-header__dropdown__close');
+
+      var $sectionDropdowns = $('.fi-section-header a[data-dropdown]');
+      var $sectionDropdownsClose = $('.fi-section-header__dropdown-wrap .fi-section-header__dropdown__close');
+      var $langItems = $('.fi-site-header__dropdown__lang .nav-langs > li');
+
+      var sectionHeaderOffset = 1;
+      var $sectionHeader = $('.fi-section-header');
+      if ($sectionHeader.length > 0)
+        sectionHeaderOffset = $sectionHeader.position().top == 0 ? 1 : $sectionHeader.position().top;
+
+      window.lastScrollTop = 0;
+      window.scrollTimeout;
+      $(window).on('scroll', function () {
+        clearTimeout(window.scrollTimeout);
+        window.scrollTimeout = setTimeout(function () {
+          st = $(this).scrollTop();
+          var direction = st < window.lastScrollTop ? "up" : "down";
+          if (st >= sectionHeaderOffset && window.lastScrollTop <= sectionHeaderOffset) {
+            $('.worldcup .fi-section-header').addClass('navbar-fixed-top');
+            $('.worldcup .fi-site-header').addClass('navbar-fixed-top');
+            $(".worldcup .fi-pageheader").addClass("affix");
+            $(".worldcup .tabs-nav--matchheader").addClass("affix");
+
+            if (direction == 'down' && $('#match-page').length > 0)
+              $('.fi-boxed-page').css({ 'padding-top': '160px' });
+            if (direction == 'up' && $('#match-page').length > 0)
+              $('.fi-boxed-page').css({ 'padding-top': '0px' });
+
+            if (direction == 'down' && $('body.worldcup.players').length > 0)
+              $("body.worldcup.players").addClass("body-padding");
+            if (direction == 'up' && $('body.worldcup.players').length > 0)
+              $("body.worldcup.players").removeClass("body-padding");
+
+            if (direction == 'down' && $('.worldcup .fi-matchstrip').length > 0)
+              $('.fi-matchstrip').addClass('sticky');
+            if (direction == 'up' && $('.worldcup .fi-matchstrip').length > 0)
+              $('.fi-matchstrip').removeClass('sticky');
+          }
+          else if (st < sectionHeaderOffset && window.lastScrollTop >= sectionHeaderOffset){
+            $('.worldcup .fi-section-header').removeClass('navbar-fixed-top');
+            $('.worldcup .fi-site-header').removeClass('navbar-fixed-top');
+            $(".worldcup .fi-pageheader").removeClass("affix");
+            $(".worldcup .tabs-nav--matchheader").removeClass("affix");
+
+            if (direction == 'down' && $('#match-page').length > 0)
+              $('.fi-boxed-page').css({ 'padding-top': '160px' });
+            if (direction == 'up' && $('#match-page').length > 0)
+              $('.fi-boxed-page').css({ 'padding-top': '0px' });
+
+            if (direction == 'down' && $('body.worldcup.players').length > 0)
+              $("body.worldcup.players").addClass("body-padding");
+            if (direction == 'up' && $('body.worldcup.players').length > 0)
+              $("body.worldcup.players").removeClass("body-padding");
+
+            if (direction == 'down' && $('.worldcup .fi-matchstrip').length > 0)
+              $('.fi-matchstrip').addClass('sticky');
+            if (direction == 'up' && $('.worldcup .fi-matchstrip').length > 0)
+              $('.fi-matchstrip').removeClass('sticky');
+          }
+
+          //scroll up
+          if (st < window.lastScrollTop) {
+            $(".tabs-nav--matchheader").removeClass("hidden");
+          }
+          //scroll down
+          else if (st > 0) {
+            $(".tabs-nav--matchheader").addClass("hidden");
+          }
+          window.lastScrollTop = st;
+        }, 20);
+      });
+
+      //setup broadcastersModal
+      $('.open-broadcasters-modal').quickModal();
+
+      //dropdown menus toggle
+      $dropdowns.on('click', function (e) {
+        e.preventDefault();
+        var $this = $(this);
+        var li = $this.parent();
+        var dropdown = $this.data('dropdown');
+        $($dropdownsClose).removeClass('hidden');
+        $('.fi-site-header__dropdown-wrap > div > div').not($('.' + dropdown)).addClass('hidden');
+        $('.' + dropdown).toggleClass('hidden');
+        $dropdowns.parent().not(li).removeClass('active');
+
+        $body.addClass("fi-site-dropdown-open");
+
+        if (dropdown == "fi-site-header__dropdown__sectionheader") {
+          $body.toggleClass("fi-site-dropdown-second-level-open");
+          $body.removeClass("fi-site-dropdown-open");
+        } else {
+          if (dropdown == "fi-site-header__dropdown__main") {
+            $body.toggleClass("fi-site-dropdown-open dropdown-main--open");
+            $body.removeClass("dropdown-login--open");
+            $body.removeClass("dropdown-search--open");
+            $body.removeClass("dropdown-lang--open");
+          }
+          if (dropdown == "fi-site-header__dropdown__search") {
+            $body.toggleClass("fi-site-dropdown-open dropdown-search--open");
+            $body.removeClass("dropdown-login--open");
+            $body.removeClass("dropdown-main--open");
+            $body.removeClass("dropdown-lang--open");
+          }
+          if (dropdown == "fi-site-header__dropdown__login") {
+            $body.toggleClass("fi-site-dropdown-open dropdown-login--open");
+            $body.removeClass("dropdown-main--open");
+            $body.removeClass("dropdown-search--open");
+            $body.removeClass("dropdown-lang--open");
+          }
+          if (dropdown == "fi-site-header__dropdown__lang") {
+            $body.toggleClass("fi-site-dropdown-open dropdown-lang--open");
+            $body.removeClass("dropdown-main--open");
+            $body.removeClass("dropdown-search--open");
+            $body.removeClass("dropdown-login--open");
+          }
+          $body.toggleClass("fi-site-dropdown-open");
+          $body.removeClass("fi-site-dropdown-second-level-open");
+        }
+
+      });
+      $dropdownsClose.on('click', function () {
+        var $this = $(this);
+        var dropdown = $this.data('dropdown');
+        $('.fi-site-header__dropdown-wrap > div > div').not($('.' + dropdown)).addClass('hidden');
+        $($dropdownsClose).addClass('hidden');
+        $body.removeClass("fi-site-dropdown-open");
+        $body.removeClass("dropdown-main--open");
+        $body.removeClass("dropdown-login--open");
+        $body.removeClass("dropdown-search--open");
+        $body.removeClass("dropdown-lang--open");
+
+      });
+
+      $('.fi-select-wrapper.fi-select__languages').fi_select({ initLanguages: true });
+
+      $sectionDropdowns.on('click', function (e) {
+        e.preventDefault();
+
+        scrollHeight = $(window).scrollTop();
+        var $this = $(this);
+        var li = $this.parent();
+        var dropdown = $this.data('dropdown');
+        $($sectionDropdownsClose).removeClass('hidden');
+        //$('.fi-section-header__dropdown-wrap > div > div').not($('.' + dropdown)).addClass('hidden');
+        $('.fi-section-header__dropdown--vertical').removeClass('hidden');
+        //$('.' + dropdown).toggleClass('hidden');
+        $sectionDropdowns.parent().not(li).removeClass('active');
+
+        $body.addClass("fi-section-dropdown-open");
+        $body.toggleClass("fi-section-dropdown-open dropdown-main--open");
+        $body.toggleClass("fi-section-dropdown-open");
+        $body.removeClass("fi-section-dropdown-second-level-open");
+
+      });
+
+      $sectionDropdownsClose.on('click', function () {
+
+        var $this = $(this);
+        var dropdown = $this.data('dropdown');
+        $('.fi-section-header__dropdown-wrap > div > div').not($('.' + dropdown)).addClass('hidden');
+        $($sectionDropdownsClose).addClass('hidden');
+        $body.removeClass("fi-section-dropdown-open");
+        $body.removeClass("dropdown-main--open");
+        $(window).scrollTop(scrollHeight);
+        //$body.removeClass("dropdown-login--open");
+        //$body.removeClass("dropdown-search--open");
+        //$body.removeClass("dropdown-lang--open");
+      });
+
+      //Languages dropdown
+      $langItems.on('click', function (e) {
+        e.preventDefault();
+        var _this = this;
+        var _location = $(_this).find('a').attr('href');
+        _location = [_location, window.location.pathname, window.location.search, window.location.hash].join('');
+
+        window.location = _location;
+
+      });
+
+    },
+    setMSURLOnButtons: function () {
+
+      var _this = this;
+      var lang = Utility.getLangCode();
+
+      _this.$_msLoginBtn = $("#fi-login-signin-link");
+      _this.$_msRegistrationBtn = $(".fi-login__submit-wrap");
+      _this.$_msLogoutBtn = $("#siteh-theclub-logout a");
+
+      var redirectURL = _this.getParameterByName('redirect');
+      var stateURL = redirectURL || window.location.href;
+
+
+      if (_this.$_msLoginBtn.length) {
+        var _href = _this.$_msLoginBtn.attr("href");
+        if (_href.indexOf("state=") === -1) {
+          _href = [_href, "&state=", window.btoa([stateURL, '#login'].join('')), '&ui_locales=', lang.toLowerCase()].join('');
+          _this.$_msLoginBtn.attr("href", _href);
+        }
+      }
+
+      if (_this.$_msLogoutBtn.length) {
+        var _href = _this.$_msLogoutBtn.attr("href");
+        if (_href.indexOf("state=") === -1) {
+          _href = [_href, "&state=", window.btoa(window.location.href), "&rnd=", new Date().getTime()].join('');
+        }
+        _this.$_msLogoutBtn.add('.logoutlink a').attr("href", _href);
+      }
+
+      _this.$_msRegistrationBtn.click(function (e) {
+        e.preventDefault();
+        window.location = _this.$_msLoginBtn.attr("href");
+      });
+
+    },
+
+    getParameterByName: function (name, url) {
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+  };
+
+  $(document).ready(function () {
+    Header.init();
+  });
+
+  window.Header = Header;
+
+  return Header;
+});

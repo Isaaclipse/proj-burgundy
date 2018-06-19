@@ -1,0 +1,117 @@
+define('sharing', ['jquery'], function ($) {
+
+  var Sharing = {
+    $social_list: null,
+    $openGraphMetas: null,
+    _culture: null,
+    _openGraph: {},
+    _sharingParam: "height=700, width=650, ' + tl + ', toolbar=0, location=0, menubar=0, directories=0, scrollbars=0",
+    
+    init: function () {
+      Sharing.$social_list = $('.fi-social-share');
+      if (Sharing.$social_list.length) {
+        $('.fb-share-link', Sharing.$social_list).unbind('click');
+        $('.twitter-share-link', Sharing.$social_list).unbind('click');
+        $('.g-plus-share-link', Sharing.$social_list).unbind('click');
+        $('.vk-share-link', Sharing.$social_list).unbind('click');
+
+        $('.fb-share-link', Sharing.$social_list).click(Sharing.shareFacebook);
+        $('.twitter-share-link', Sharing.$social_list).click(Sharing.shareTwitter);
+        $('.g-plus-share-link', Sharing.$social_list).click(Sharing.shareGoogle);
+        $('.vk-share-link', Sharing.$social_list).click(Sharing.shareVK);
+
+        var $fb = $('.fb-share-link', Sharing.$social_list);
+
+        Sharing._culture = $("html").attr("lang");
+      }
+    },
+
+    shareFacebook: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+
+      Sharing.getOgData();
+
+      var _sharingURL = Sharing.getSharableURL(Sharing._openGraph["og:url"], "fbs");
+
+      _sharingURL = encodeURI(['http://www.facebook.com/sharer/sharer.php?u=', _sharingURL].join(''), '', Sharing._sharingParam);
+
+      window.open(_sharingURL);
+    },
+
+    shareTwitter: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      Sharing.getOgData();
+
+      var _sharingURL = Sharing.getSharableURL(Sharing._openGraph["og:url"], "tws");
+
+      _sharingURL = encodeURI(['http://twitter.com/intent/tweet?url=', _sharingURL, '&text=', Sharing._openGraph["og:title"], " ", _sharingURL].join(''));
+
+      window.open(_sharingURL, '', Sharing._sharingParam);
+    },
+
+    shareGoogle: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      Sharing.getOgData();
+
+      var _sharingURL = Sharing.getSharableURL(Sharing._openGraph["og:url"], "gps");
+
+      _sharingURL = encodeURI(['https://plus.google.com/share?url=', _sharingURL].join(''));
+
+      window.open(_sharingURL, '', Sharing._sharingParam);
+    },
+
+    shareVK: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      Sharing.getOgData();
+
+      var _sharingURL = Sharing.getSharableURL(Sharing._openGraph["og:url"], "vk");
+
+      _sharingURL = encodeURI(['https://vk.com/share.php?url=', _sharingURL].join(''));
+
+      window.open(_sharingURL, '', Sharing._sharingParam);
+    },
+
+    getOgData: function () {
+
+      if (!Sharing.$openGraphMetas) {
+        Sharing.$openGraphMetas = $("meta[property^='og:']");
+      }
+
+      for (var i = 0; i < Sharing.$openGraphMetas.length; i++) {
+        var $og = Sharing.$openGraphMetas[i];
+        Sharing._openGraph[$($og).attr("property")] = $($og).attr("content");
+      }
+    }
+
+    , getSharableURL: function (url, channel) {
+
+      var _cid_campaign = Sharing.$social_list.data(channel + "-cid-campaign");
+
+      if (_cid_campaign) {
+        var _lang = Sharing._culture.substring(0, 2);
+        
+        return ["fifa.to/", _cid_campaign,"_",channel,"_",_lang].join('');
+
+      } else {
+        return url;
+      }
+
+    }
+
+  };
+
+  $(document).ready(function () {
+
+    $(".fi-lb__wrapper").on("matchconsole:postrendered", function (e) {
+      Sharing.init();
+    });
+
+    Sharing.init();
+  });
+
+  return Sharing;
+});
