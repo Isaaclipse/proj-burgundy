@@ -1,0 +1,77 @@
+body{
+    background-image: linear-gradient(to top, #64b3f4, #24c8ed, #42d7d4, #83e1b4, #c2e59c);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+/************** HOME SECTION ***********/
+a{
+	text-decoration: none;
+}
+
+li:hover{
+	background-color: grey;
+}
+
+.home-btn{
+	font-size: 20px;
+	color: white;
+	border-radius: 5px;
+	background-color: #EE6142;
+	padding: 10px 10px;
+	margin-top: 150px;
+    margin-left: 45%;	
+}
+
+.container {
+   min-height:100%;
+   position:relative;
+}
+
+.twitter-section {
+    text-align: center;
+}
+.instagram-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}   
+
+.instagram-section ul {
+    list-style-type: none;
+    margin: 0 auto;
+}
+
+.instagram-section ul li { 
+    width: 320px;
+    float: left;
+    margin-right: 30px;
+}
+
+
+/********** TEAM SECTION **************/
+.div-container{
+    width:300px;
+    height: 300px;
+    border-style: solid;
+    border-color: white;
+    margin-top: 20px;
+    margin-left: 30px;
+    display: block;
+    float: left;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/********** MEDIA QUERIES ************/
