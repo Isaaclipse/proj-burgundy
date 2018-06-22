@@ -1,0 +1,155 @@
+body{
+    background-image: linear-gradient(to top, #64b3f4, #24c8ed, #42d7d4, #83e1b4, #c2e59c);
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+}
+
+/************** HOME SECTION ***********/
+a{
+	text-decoration: none;
+}
+
+li:hover{
+	background-color: grey;
+}
+
+.home-btn{
+	font-size: 20px;
+	color: white;
+
+	border-radius: 5px;
+	background-color: #EE6142;
+
+	padding: 10px 10px;
+
+	margin-top: 150px;
+    margin-left: 45%;	
+}
+
+.home-btn:hover{
+    background-color: white;
+    color: gold;
+
+
+}
+
+.container {
+ min-height: 100%;
+ position: relative;
+}
+
+.twitter-section {
+    text-align: center;
+}
+.instagram-section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+}   
+
+.instagram-section ul {
+    list-style-type: none;
+    margin: 0 auto;
+}
+
+.instagram-section ul li { 
+    width: 320px;
+    float: left;
+    margin-right: 30px;
+}
+
+
+/********** TEAM SECTION **************/
+
+.div-container img{
+    width: 300px;
+    height: 300px;
+    float: left;
+    margin: 20px;
+    margin-left: 50px;
+
+}
+
+
+
+/********** TIMELINE SECTION **************/
+
+#winners{
+    position: relative;
+    padding-top: 20px;
+    font-size: 3em;
+    color: white;
+    text-align: center;
+
+}
+
+.winner{
+    width: 25%;
+    height: 25%;
+    margin: 40px;
+
+}
+
+.flex-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.timeline-text{
+    color: white;
+}
+
+
+.borders{
+    border-radius: 3px;
+    box-shadow: 10px 10px 5px #696969;
+
+}
+
+.timeline-table{
+    width: 100%;
+
+}
+
+.statistics{
+    margin-left: 40px;
+}
+
+.italy-img{
+    width: 70px;
+    height: 70px;
+}
+
+.winners-count{
+    width: 100px;
+    height: 140px;
+}
+
+/***********ABOUT US*************/
+
+.aboutPic{
+  border-radius: 50%;
+  border: dotted;
+  width: 200px;
+  height: 200px;
+  float: left;
+  margin-right:15px;">
+}
+.aboutUs{
+    margin: 40px 40px 40px 40px;
+    padding: 0;
+}
+.aboutPicC{
+    border-radius: 50%;
+    border: dotted;
+  width: 200px;
+  height: 200px;
+  float: right;
+  margin-left:15px;">
+}
+
